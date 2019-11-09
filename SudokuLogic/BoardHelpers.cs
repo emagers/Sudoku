@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SudokuLogic
@@ -48,6 +49,23 @@ namespace SudokuLogic
         public static List<(int, List<int>)> GetSquare(this Board board, int square)
         {
             return board.GetSquares()[square];
+        }
+
+        public static int GetSquareIndexFromPosition(this Board board, int row, int column)
+        {
+            return row switch
+            {
+                int x when x <= 2 && column <= 2 => 0,
+                int x when x <= 2 && column <= 5 => 1,
+                int x when x <= 2 && column <= 8 => 2,
+                int x when x <= 5 && column <= 2 => 3,
+                int x when x <= 5 && column <= 5 => 4,
+                int x when x <= 5 && column <= 8 => 5,
+                int x when x <= 8 && column <= 2 => 6,
+                int x when x <= 8 && column <= 5 => 7,
+                int x when x <= 8 && column <= 8 => 8,
+                _ => throw new ArgumentException(nameof(row))
+            };
         }
     }
 }
