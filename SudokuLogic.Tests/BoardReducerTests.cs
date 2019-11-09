@@ -6,7 +6,7 @@ namespace SudokuLogic.Tests
 {
     public class BoardReducerTests
     {
-        List<List<int>> boardItems = new List<List<int>>
+        private readonly List<List<int>> boardItems = new List<List<int>>
         {
             new List<int> { 5, 0, 0, 0, 3, 0, 0, 0, 0 },
             new List<int> { 3, 0, 0, 9, 0, 2, 8, 0, 5 },
@@ -43,14 +43,17 @@ namespace SudokuLogic.Tests
             Assert.Equal(8, board[0][1].Item2.First());
         }
 
-        [Fact]
-        public void EasyPossibilities_ShouldIntersectPossibilities_ForRowColumnSquare()
+        [Theory]
+        [InlineData(new int[] { 1, 4, 6, 7, 8, 9 }, 0, 1)]
+        [InlineData(new int[] { 6, 7 }, 1, 4)]
+        [InlineData(new int[] { 1, 4, 7 }, 0, 7)]
+        public void EasyPossibilities_ShouldIntersectPossibilities_ForRowColumnSquare(IEnumerable<int> expected, int row, int column)
         {
             Board board = new Board(boardItems);
 
             board.PopulateEasyPossibilities();
 
-            Assert.Equal(new List<int> { 1, 4, 6, 7, 8, 9 }, board[0][1].Item2);
+            Assert.Equal(expected, board[row][column].Item2);
         }
 
         [Fact]

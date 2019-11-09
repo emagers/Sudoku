@@ -9,23 +9,17 @@ namespace SudokuLogic
 
         private static List<int> GetEasyPossibilitiesInColumn(Board board, int columnIndex)
         {
-            List<(int, List<int>)> column = board.GetColumn(columnIndex);
-
-            return Numbers.Except(column.Select(x => x.Item1)).ToList();
+            return Numbers.Except(board.GetColumn(columnIndex).Select(x => x.Item1)).ToList();
         }
 
         private static List<int> GetEasyPossibilitiesInRow(Board board, int rowIndex)
         {
-            List<(int, List<int>)> row = board.GetRow(rowIndex);
-
-            return Numbers.Except(row.Select(x => x.Item1)).ToList();
+            return Numbers.Except(board.GetRow(rowIndex).Select(x => x.Item1)).ToList();
         }
 
         private static List<int> GetEasyPossibilitiesInSquare(Board board, int squareIndex)
         {
-            List<(int, List<int>)> square = board.GetSquare(squareIndex);
-
-            return Numbers.Except(square.Select(x => x.Item1)).ToList();
+            return Numbers.Except(board.GetSquare(squareIndex).Select(x => x.Item1)).ToList();
         }
 
         private static List<int> GetEasyPossibilitiesAtPosition(Board board, int row, int column)
