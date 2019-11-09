@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace SudokuLogic.Tests
 {
     public class BoardHelpersTests
     {
-        private static readonly Board board = new Board
+        private static readonly List<List<int>> values = new List<List<int>>
         {
             new List<int> { 5,2,9,4,1,7,8,3,6},
             new List<int> { 8,1,3,2,5,6,9,7,4},
@@ -18,21 +19,23 @@ namespace SudokuLogic.Tests
             new List<int> { 2,6,5,9,8,4,7,1,3}
         };
 
+        private static readonly Board board = new Board(values);
+
         [Fact]
         public void GetRows_Returns_Correct_Rows()
         {
-            List<List<int>> rows = board.GetRows();
+            List<List<(int, List<int>)>> rows = board.GetRows();
 
             for (int i = 0; i < board.Count; i++)
             {
-                Assert.Equal(board[i], rows[i]);
+                Assert.Equal(board[i].Select(x => x.Item1).ToList(), rows[i].Select(x => x.Item1).ToList());
             }
         }
 
         [Fact]
         public void GetColumns_Returns_Correct_Columns()
         {
-            Board columns = new Board
+            List<List<int>> columns = new List<List<int>>
             {
                 new List<int> { 5,8,4,6,3,9,7,1,2},
                 new List<int> { 2,1,7,4,5,8,3,9,6},
@@ -45,18 +48,21 @@ namespace SudokuLogic.Tests
                 new List<int> { 6,4,1,7,2,5,9,8,3}
             };
 
-            List<List<int>> actualColumns = board.GetColumns();
+            Board expectedColumns = new Board(columns);
+            Board board = new Board(values);
+
+            List<List<(int, List<int>)>> actualColumns = board.GetColumns();
 
             for (int i = 0; i < board.Count; i++)
             {
-                Assert.Equal(columns[i], actualColumns[i]);
+                Assert.Equal(expectedColumns[i].Select(x => x.Item1).ToList(), actualColumns[i].Select(x => x.Item1).ToList());
             }
         }
 
         [Fact]
         public void GetSquares_Returns_Correct_Squares()
         {
-            Board squares = new Board
+            var expected = new List<List<int>>
             {
                 new List<int> { 5,2,9,8,1,3,4,7,6},
                 new List<int> { 4,1,7,2,5,6,8,9,3},
@@ -69,11 +75,14 @@ namespace SudokuLogic.Tests
                 new List<int> { 4,2,9,5,6,8,7,1,3}
             };
 
-            List<List<int>> actualSquares = board.GetSquares();
+            Board expectedSquares = new Board(expected);
+            Board board = new Board(values);
+
+            List<List<(int, List<int>)>> actualSquares = board.GetSquares();
 
             for (int i = 0; i < board.Count; i++)
             {
-                Assert.Equal(squares[i], actualSquares[i]);
+                Assert.Equal(expectedSquares[i].Select(x => x.Item1).ToList(), actualSquares[i].Select(x => x.Item1).ToList());
             }
         }
 
@@ -89,9 +98,9 @@ namespace SudokuLogic.Tests
         [InlineData(8, new int[] { 2, 6, 5, 9, 8, 4, 7, 1, 3 })]
         public void GetRow(int index, IEnumerable<int> expected)
         {
-            List<int> row = board.GetRow(index);
+            List<(int, List<int>)> row = board.GetRow(index);
 
-            Assert.Equal(expected, row);
+            Assert.Equal(expected, row.Select(x => x.Item1).ToList());
         }
 
         [Theory]
@@ -106,9 +115,9 @@ namespace SudokuLogic.Tests
         [InlineData(8, new int[] { 6, 4, 1, 7, 2, 5, 9, 8, 3 })]
         public void GetColumn(int index, IEnumerable<int> expected)
         {
-            List<int> row = board.GetColumn(index);
+            List<(int, List<int>)> column = board.GetColumn(index);
 
-            Assert.Equal(expected, row);
+            Assert.Equal(expected, column.Select(x => x.Item1).ToList());
         }
 
         [Theory]
@@ -123,9 +132,9 @@ namespace SudokuLogic.Tests
         [InlineData(8, new int[] { 4, 2, 9, 5, 6, 8, 7, 1, 3 })]
         public void GetSquare(int index, IEnumerable<int> expected)
         {
-            List<int> row = board.GetSquare(index);
+            List<(int, List<int>)> square = board.GetSquare(index);
 
-            Assert.Equal(expected, row);
+            Assert.Equal(expected, square.Select(x => x.Item1).ToList());
         }
     }
 }

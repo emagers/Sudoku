@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace SudokuLogic
 {
@@ -15,7 +13,7 @@ namespace SudokuLogic
 
         public static bool IsBoardValid(Board board) 
         {
-            List<List<int>> allLines = new List<List<int>>();
+            List<List<(int, List<int>)>> allLines = new List<List<(int, List<int>)>>();
             allLines.AddRange(board.GetColumns());
             allLines.AddRange(board.GetRows());
             allLines.AddRange(board.GetSquares());
@@ -24,7 +22,7 @@ namespace SudokuLogic
 
             for (int i = 0; i < allLines.Count && valid; i++)
             {
-                if (!IsLineValid(allLines[i]))
+                if (!IsLineValid(allLines[i].Select(line => line.Item1).ToList()))
                 {
                     valid = false;
                 }
@@ -33,6 +31,6 @@ namespace SudokuLogic
             return valid;
         }
 
-        public static bool IsBoardComplete(Board board) => IsBoardValid(board) && board.Sum(line => line.Count(x => x == 0)) == 0;
+        public static bool IsBoardComplete(Board board) => IsBoardValid(board) && board.Sum(line => line.Count(x => x.Item1 == 0)) == 0;
     }
 }
