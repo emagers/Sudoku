@@ -24,11 +24,11 @@ namespace SudokuLogic.Tests
         [Fact]
         public void GetRows_Returns_Correct_Rows()
         {
-            List<List<(int, List<int>)>> rows = board.GetRows();
+            List<List<BoardItem>> rows = board.GetRows();
 
             for (int i = 0; i < board.Count; i++)
             {
-                Assert.Equal(board[i].Select(x => x.Item1).ToList(), rows[i].Select(x => x.Item1).ToList());
+                Assert.Equal(board[i].Select(x => x.Value).ToList(), rows[i].Select(x => x.Value).ToList());
             }
         }
 
@@ -51,11 +51,11 @@ namespace SudokuLogic.Tests
             Board expectedColumns = new Board(columns);
             Board board = new Board(values);
 
-            List<List<(int, List<int>)>> actualColumns = board.GetColumns();
+            List<List<BoardItem>> actualColumns = board.GetColumns();
 
             for (int i = 0; i < board.Count; i++)
             {
-                Assert.Equal(expectedColumns[i].Select(x => x.Item1).ToList(), actualColumns[i].Select(x => x.Item1).ToList());
+                Assert.Equal(expectedColumns[i].Select(x => x.Value).ToList(), actualColumns[i].Select(x => x.Value).ToList());
             }
         }
 
@@ -78,11 +78,11 @@ namespace SudokuLogic.Tests
             Board expectedSquares = new Board(expected);
             Board board = new Board(values);
 
-            List<List<(int, List<int>)>> actualSquares = board.GetSquares();
+            List<List<BoardItem>> actualSquares = board.GetSquares();
 
             for (int i = 0; i < board.Count; i++)
             {
-                Assert.Equal(expectedSquares[i].Select(x => x.Item1).ToList(), actualSquares[i].Select(x => x.Item1).ToList());
+                Assert.Equal(expectedSquares[i].Select(x => x.Value).ToList(), actualSquares[i].Select(x => x.Value).ToList());
             }
         }
 
@@ -98,9 +98,9 @@ namespace SudokuLogic.Tests
         [InlineData(8, new int[] { 2, 6, 5, 9, 8, 4, 7, 1, 3 })]
         public void GetRow(int index, IEnumerable<int> expected)
         {
-            List<(int, List<int>)> row = board.GetRow(index);
+            List<BoardItem> row = board.GetRow(index);
 
-            Assert.Equal(expected, row.Select(x => x.Item1).ToList());
+            Assert.Equal(expected, row.Select(x => x.Value).ToList());
         }
 
         [Theory]
@@ -115,9 +115,9 @@ namespace SudokuLogic.Tests
         [InlineData(8, new int[] { 6, 4, 1, 7, 2, 5, 9, 8, 3 })]
         public void GetColumn(int index, IEnumerable<int> expected)
         {
-            List<(int, List<int>)> column = board.GetColumn(index);
+            List<BoardItem> column = board.GetColumn(index);
 
-            Assert.Equal(expected, column.Select(x => x.Item1).ToList());
+            Assert.Equal(expected, column.Select(x => x.Value).ToList());
         }
 
         [Theory]
@@ -132,9 +132,9 @@ namespace SudokuLogic.Tests
         [InlineData(8, new int[] { 4, 2, 9, 5, 6, 8, 7, 1, 3 })]
         public void GetSquare(int index, IEnumerable<int> expected)
         {
-            List<(int, List<int>)> square = board.GetSquare(index);
+            List<BoardItem> square = board.GetSquare(index);
 
-            Assert.Equal(expected, square.Select(x => x.Item1).ToList());
+            Assert.Equal(expected, square.Select(x => x.Value).ToList());
         }
 
         [Theory]

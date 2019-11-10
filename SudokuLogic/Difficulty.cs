@@ -1,6 +1,6 @@
 namespace SudokuLogic.Enums 
 {
-    public enum Difficult
+    public enum Difficulty
     {
         EASY,
         MEDIUM,
