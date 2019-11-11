@@ -6,7 +6,7 @@ namespace SudokuLogic.Tests
 {
     public class BoardReducerTests
     {
-        private readonly List<List<int>> boardItems = new List<List<int>>
+        private readonly List<List<int>> easyBoardItems = new List<List<int>>
         {
             new List<int> { 5, 0, 0, 0, 3, 0, 0, 0, 0 },
             new List<int> { 3, 0, 0, 9, 0, 2, 8, 0, 5 },
@@ -22,9 +22,9 @@ namespace SudokuLogic.Tests
         [Fact]
         public void EasyPossibilities_ShouldNotPopulate_ForFilledPosition()
         {
-            Board board = new Board(boardItems);
+            Board board = new Board(easyBoardItems);
 
-            board.PopulateEasyPossibilities();
+            board.ReduceEasyPossibilities();
 
             Assert.Empty(board[0][0].Possibilities);
             Assert.Empty(board[8][8].Possibilities);
@@ -34,11 +34,11 @@ namespace SudokuLogic.Tests
         [Fact]
         public void EasyPossibilities_ShouldNotAddNewPossibilities_AfterInitialCall()
         {
-            Board board = new Board(boardItems);
+            Board board = new Board(easyBoardItems);
             board[0][1].Possibilities.Clear();
             board[0][1].Possibilities.Add(8);
 
-            board.PopulateEasyPossibilities();
+            board.ReduceEasyPossibilities();
 
             Assert.Single(board[0][1].Possibilities);
             Assert.Equal(8, board[0][1].Possibilities.First());
@@ -50,9 +50,9 @@ namespace SudokuLogic.Tests
         [InlineData(new int[] { 1, 4, 7 }, 0, 7)]
         public void EasyPossibilities_ShouldIntersectPossibilities_ForRowColumnSquare(IEnumerable<int> expected, int row, int column)
         {
-            Board board = new Board(boardItems);
+            Board board = new Board(easyBoardItems);
 
-            board.PopulateEasyPossibilities();
+            board.ReduceEasyPossibilities();
 
             Assert.Equal(expected, board[row][column].Possibilities);
         }
@@ -60,9 +60,9 @@ namespace SudokuLogic.Tests
         [Fact]
         public void EasyPossibilities_ShouldGeneratePossibilities_ForEachEmptyPosition()
         {
-            Board board = new Board(boardItems);
+            Board board = new Board(easyBoardItems);
 
-            board.PopulateEasyPossibilities();
+            board.ReduceEasyPossibilities();
 
             List<List<int>> allItemPossibilities = board.SelectMany(row => row.Where(item => item.Value == 0).Select(item => item.Possibilities)).ToList();
             allItemPossibilities.ForEach(item =>

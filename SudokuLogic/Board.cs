@@ -33,15 +33,23 @@ namespace SudokuLogic
             moveCounts[reductionDifficilty]++;
         }
 
-        private void SetPosition(int row, int column)
+        public Dictionary<Difficulty, int> GetDifficulties() => moveCounts;
+
+        public void SetPositions()
         {
-            if (this[row][column].Value == 0 && this[row][column].Possibilities.Count == 1)
+            for (int row = 0; row < this.Count; row++)
             {
-                this[row][column] = new BoardItem
+                for (int column = 0; column < this[row].Count; column++)
                 {
-                    Value = this[row][column].Possibilities.First(),
-                    Possibilities = new List<int>()
-                };
+                    if (this[row][column].Value == 0 && this[row][column].Possibilities.Count == 1)
+                    {
+                        this[row][column] = new BoardItem
+                        {
+                            Value = this[row][column].Possibilities.First(),
+                            Possibilities = new List<int>()
+                        };
+                    }
+                }
             }
         }
     }

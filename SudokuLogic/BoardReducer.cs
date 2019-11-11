@@ -30,7 +30,7 @@ namespace SudokuLogic
                     .ToList();
         }
 
-        public static void PopulateEasyPossibilities(this Board board)
+        public static void ReduceEasyPossibilities(this Board board)
         {
             for (int i = 0; i < board.Count; i++)
             {
@@ -44,6 +44,16 @@ namespace SudokuLogic
                     }
                 }
             }
+        }
+
+        public static void ReduceNakedPairPossibilities(this Board board)
+        {
+
+        }
+
+        public static void ReduceHiddinPairPossibilities(this Board board)
+        {
+
         }
     }
 }

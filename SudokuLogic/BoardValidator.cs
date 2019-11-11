@@ -11,7 +11,7 @@ namespace SudokuLogic
 
         public static bool IsLineComplete(List<int> line) => line.Count(x => x == 0) == 0 && !completeNumbers.Except(line).Any();
 
-        public static bool IsBoardValid(Board board) 
+        public static bool IsBoardValid(this Board board) 
         {
             List<List<BoardItem>> allLines = new List<List<BoardItem>>();
             allLines.AddRange(board.GetColumns());
@@ -31,6 +31,6 @@ namespace SudokuLogic
             return valid;
         }
 
-        public static bool IsBoardComplete(Board board) => IsBoardValid(board) && board.Sum(line => line.Count(x => x.Value == 0)) == 0;
+        public static bool IsBoardComplete(this Board board) => IsBoardValid(board) && board.Sum(line => line.Count(x => x.Value == 0)) == 0;
     }
 }
