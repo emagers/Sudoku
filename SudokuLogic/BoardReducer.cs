@@ -9,17 +9,17 @@ namespace SudokuLogic
 
         private static List<int> GetEasyPossibilitiesInColumn(Board board, int columnIndex)
         {
-            return Numbers.Except(board.GetColumn(columnIndex).Select(x => x.Item1)).ToList();
+            return Numbers.Except(board.GetColumn(columnIndex).Select(x => x.Value)).ToList();
         }
 
         private static List<int> GetEasyPossibilitiesInRow(Board board, int rowIndex)
         {
-            return Numbers.Except(board.GetRow(rowIndex).Select(x => x.Item1)).ToList();
+            return Numbers.Except(board.GetRow(rowIndex).Select(x => x.Value)).ToList();
         }
 
         private static List<int> GetEasyPossibilitiesInSquare(Board board, int squareIndex)
         {
-            return Numbers.Except(board.GetSquare(squareIndex).Select(x => x.Item1)).ToList();
+            return Numbers.Except(board.GetSquare(squareIndex).Select(x => x.Value)).ToList();
         }
 
         private static List<int> GetEasyPossibilitiesAtPosition(Board board, int row, int column)
@@ -36,17 +36,11 @@ namespace SudokuLogic
             {
                 for (int j = 0; j < board.Count; j++)
                 {
-                    if (board[i][j].Item1 == 0)
+                    if (board[i][j].Value == 0)
                     {
                         List<int> temp = GetEasyPossibilitiesAtPosition(board, i, j).ToList();
-                        if (board[i][j].Item2.Count == 0)
-                        {
-                            board[i][j].Item2.AddRange(temp);
-                        }
-                        else
-                        {
-                            board[i][j].Item2.RemoveAll(x => !temp.Contains(x));
-                        }
+
+                        board.UpdatePossibilitiesAtPosition(i, j, temp, Enums.Difficulty.EASY);
                     }
                 }
             }

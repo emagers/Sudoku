@@ -6,23 +6,23 @@ namespace SudokuLogic
 {
     public static class BoardHelpers
     {
-        public static List<List<(int, List<int>)>> GetColumns(this Board board) => board.Select((row, index) => new List<(int, List<int>)>(board.Select(inner => inner[index]))).ToList();
+        public static List<List<BoardItem>> GetColumns(this Board board) => board.Select((row, index) => new List<BoardItem>(board.Select(inner => inner[index]))).ToList();
 
-        public static List<List<(int, List<int>)>> GetRows(this Board board) => board;
+        public static List<List<BoardItem>> GetRows(this Board board) => board;
 
-        public static List<List<(int, List<int>)>> GetSquares(this Board board)
+        public static List<List<BoardItem>> GetSquares(this Board board)
         {
             Board squares = new Board 
             { 
-                new List<(int, List<int>)>(),
-                new List<(int, List<int>)>(),
-                new List<(int, List<int>)>(),
-                new List<(int, List<int>)>(),
-                new List<(int, List<int>)>(),
-                new List<(int, List<int>)>(),
-                new List<(int, List<int>)>(),
-                new List<(int, List<int>)>(),
-                new List<(int, List<int>)>()
+                new List<BoardItem>(),
+                new List<BoardItem>(),
+                new List<BoardItem>(),
+                new List<BoardItem>(),
+                new List<BoardItem>(),
+                new List<BoardItem>(),
+                new List<BoardItem>(),
+                new List<BoardItem>(),
+                new List<BoardItem>()
             };
 
             for (int i = 0; i < 9; i++)
@@ -36,17 +36,17 @@ namespace SudokuLogic
             return squares;
         }
 
-        public static List<(int, List<int>)> GetColumn(this Board board, int column)
+        public static List<BoardItem> GetColumn(this Board board, int column)
         {
             return board.GetColumns()[column];
         }
 
-        public static List<(int, List<int>)> GetRow(this Board board, int row)
+        public static List<BoardItem> GetRow(this Board board, int row)
         {
             return board.GetRows()[row];
         }
 
-        public static List<(int, List<int>)> GetSquare(this Board board, int square)
+        public static List<BoardItem> GetSquare(this Board board, int square)
         {
             return board.GetSquares()[square];
         }

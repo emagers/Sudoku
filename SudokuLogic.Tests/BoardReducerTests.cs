@@ -26,21 +26,22 @@ namespace SudokuLogic.Tests
 
             board.PopulateEasyPossibilities();
 
-            Assert.Empty(board[0][0].Item2);
-            Assert.Empty(board[8][8].Item2);
-            Assert.Empty(board[2][3].Item2);
+            Assert.Empty(board[0][0].Possibilities);
+            Assert.Empty(board[8][8].Possibilities);
+            Assert.Empty(board[2][3].Possibilities);
         }
 
         [Fact]
         public void EasyPossibilities_ShouldNotAddNewPossibilities_AfterInitialCall()
         {
             Board board = new Board(boardItems);
-            board[0][1].Item2.Add(8);
+            board[0][1].Possibilities.Clear();
+            board[0][1].Possibilities.Add(8);
 
             board.PopulateEasyPossibilities();
 
-            Assert.Single(board[0][1].Item2);
-            Assert.Equal(8, board[0][1].Item2.First());
+            Assert.Single(board[0][1].Possibilities);
+            Assert.Equal(8, board[0][1].Possibilities.First());
         }
 
         [Theory]
@@ -53,7 +54,7 @@ namespace SudokuLogic.Tests
 
             board.PopulateEasyPossibilities();
 
-            Assert.Equal(expected, board[row][column].Item2);
+            Assert.Equal(expected, board[row][column].Possibilities);
         }
 
         [Fact]
@@ -63,7 +64,7 @@ namespace SudokuLogic.Tests
 
             board.PopulateEasyPossibilities();
 
-            List<List<int>> allItemPossibilities = board.SelectMany(row => row.Where(item => item.Item1 == 0).Select(item => item.Item2)).ToList();
+            List<List<int>> allItemPossibilities = board.SelectMany(row => row.Where(item => item.Value == 0).Select(item => item.Possibilities)).ToList();
             allItemPossibilities.ForEach(item =>
             {
                 Assert.NotEmpty(item);
